@@ -1,0 +1,67 @@
+<mat-drawer-container class="example-container">
+  <mat-drawer mode="side" opened class="sidebar">
+    <h2>Configuration</h2>
+    <form class="settings">
+      <button mat-stroked-button color="primary" (click)="openCreateModalDialog()">Create</button>
+
+    </form>
+</mat-drawer>
+<mat-drawer-content>
+  <div class="page">
+    <ngx-graph
+  [layout]="layout"
+  [nodes]="nodes"
+  [links]="links"
+  [update$]="update$"
+  [center$]="center$"
+  [zoomToFit$]="zoomToFit$"
+  [enableZoom]="zoomEnabled"
+  [panToNode$]="panToNode$"
+  [zoomLevel]="zoom"
+  [zoomSpeed]="zoomSpeed"
+  [autoZoom]="autoZoom"
+  [autoCenter]="autoCenter"
+  [panOnZoom]="panOnZoom"
+  [draggingEnabled]="draggingEnabled"
+>
+<ng-template #nodeTemplate let-node>
+  <svg:g class="node" (click)="openNodeModal(node)" >
+    <svg:foreignObject width="320" height="200">
+      <xhtml:body>
+        <div class="wrapperDiv">
+          <div class="title"><h1>{{node.id}}</h1></div>
+          <div class="divContent">
+            <table>
+              <tr class="tableRow" *ngFor="let key of node.data.keys">
+                <td class="keyAndIcon">
+                <span class="KeyIcon"><img [attr.src]="checkConstraint(key.constraint)" width="17px" height="17px"></img></span>
+                <span class="fieldname">{{ key.name }}</span>
+                </td>
+                <td class="dataType">{{ key.dataType }}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </xhtml:body>
+    </svg:foreignObject>
+  </svg:g>
+  <ng-template #linkTemplate let-link>
+    <svg:g  class="edge" >
+      <svg:path     class="line" stroke-width="8" stroke-opacity="0.6">
+
+      </svg:path>
+      <svg:text  class="edge-label" text-anchor="middle" dy="15" >
+        <textPath
+        matTooltipClass="test" class="text-path" [attr.href]="'#' + link.id" startOffset="50%"  >
+          {{link.data.relationship}}
+        </textPath>
+      </svg:text>
+    </svg:g>
+  </ng-template>
+</ng-template>
+
+</ngx-graph>
+  </div>
+
+  </mat-drawer-content>
+</mat-drawer-container>

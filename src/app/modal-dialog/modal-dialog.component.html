@@ -1,0 +1,97 @@
+<h2 mat-dialog-title>Table: {{ node.id }}</h2>
+  <mat-tab-group>
+  <mat-tab label="Attributes">
+    <mat-dialog-content>
+      <br>
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Field Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="dataType">
+        <mat-header-cell *matHeaderCellDef> Data Type </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.dataType}} </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </mat-dialog-content>
+  <br>
+  <mat-divider></mat-divider>
+  <br>
+  <button (click)="onClose()" mat-stroked-button color="primary">Close</button>
+  </mat-tab>
+  <mat-tab label="Relationships">
+    <mat-dialog-content>
+      <br>
+      <table mat-table
+       [dataSource]="relationships" multiTemplateDataRows
+       class="mat-elevation-z8">
+  <ng-container matColumnDef="{{column}}" *ngFor="let column of relationshipColumns">
+    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+  </ng-container>
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="relationshipColumns.length">
+      <div class="example-element-detail"
+           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+           <ul>
+             <li *ngFor="let key of element['Master Key']">{{key}}</li>
+             <button class="btnkeys" mat-button >Join Type: {{ element['Join Type']}}</button>
+           </ul>
+
+
+           <ul style="margin-left: 120px;">
+            <li *ngFor="let key of element['Slave Key']">{{key}}</li>
+          </ul>
+
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="relationshipColumns"></tr>
+  <tr mat-row *matRowDef="let element; columns: relationshipColumns;"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
+      <!--
+      <table>
+        <tr>
+          <th *ngFor="let header of relationshipColumns">{{ header }}</th>
+        </tr>
+        <tr *ngFor="let relationship of relationships">
+          <td>{{ relationship.source }}</td>
+          <td>{{ relationship.relationship }}</td>
+          <td>{{ relationship.target }}</td>
+        </tr>
+      </table>
+
+    <mat-table [dataSource]="relationships" class="mat-elevation-z8">
+      <ng-container matColumnDef="source">
+        <mat-header-cell *matHeaderCellDef> Master Table </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.source}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="relationship">
+        <mat-header-cell *matHeaderCellDef> Relationship </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.relationship}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="target">
+        <mat-header-cell *matHeaderCellDef> Slave Table </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.target}} </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="relationshipColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: relationshipColumns;"></mat-row>
+    </mat-table>-->
+  </mat-dialog-content>
+  <br>
+  <mat-divider></mat-divider><br>
+  <button (click)="onClose()" mat-stroked-button color="primary">Close</button>
+  </mat-tab>
+
+</mat-tab-group>
+

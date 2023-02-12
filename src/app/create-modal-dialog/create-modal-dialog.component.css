@@ -1,0 +1,26 @@
+mat-dialog-content {
+  width: 750px;
+  height: 600px;
+}
+.example-form-field {
+  width: 300px;
+}
+.container {
+  height: 350px;
+  overflow-y: auto;
+  padding-bottom: 10px;
+}
+.table {
+  width: 725px;
+  border-collapse: collapse;
+}
+th {
+  padding: 15px;
+  text-align: left;
+}
+.tableRow {
+  border-bottom: 1px solid #e3e3e3;
+}
+.delete-icon {
+  font-size: 20px;
+}

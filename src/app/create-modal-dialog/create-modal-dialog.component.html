@@ -1,0 +1,130 @@
+<h2 mat-dialog-title>Create Table</h2>
+<mat-dialog-content>
+  <mat-form-field class="example-form-field">
+    <mat-label>Table Name</mat-label>
+    <input matInput type="text" [(ngModel)] = "modal" >
+  </mat-form-field>
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Attributes">
+      <div class="container">
+        <table class="table">
+          <tr class="tableRow">
+            <th>Field Name</th>
+            <th>Data Type</th>
+            <th>Constraint</th>
+          </tr>
+          <tr *ngFor="let attribute of attributeList;let i=index">
+            <td><input matInput placeholder="Field Name" [name]="attribute.name + 'fieldname' + i" [(ngModel)]="attribute.name" [value]="attribute.name" type="text"></td>
+            <td>
+              <mat-form-field>
+              <mat-select [name]="attribute.dataType + 'dataType' + i" [(ngModel)]="attribute.dataType">
+                <mat-option *ngFor="let datatype of ORACLE_DATATYPES"  [value]="datatype">
+                  {{datatype}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+            <td>
+              <mat-form-field >
+                <mat-select [name]="attribute.constraint + 'constraint' + i" [(ngModel)]="attribute.constraint">
+                  <mat-option *ngFor="let constraint of CONSTRAINTS"  [value]="constraint">
+                    {{constraint}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td><mat-icon class="delete-icon" (click)="deleteAttribute(attribute.name)" >delete</mat-icon></td>
+          </tr>
+
+
+
+        </table>
+        <br>
+        <button mat-raised-button (click)="addAttribute()">Add Attribute</button>
+      </div>
+    </mat-tab>
+    <mat-tab label="Relationships">
+      <div class="container">
+        <table class="table">
+          <tr class="tableRow">
+            <th>Relation</th>
+            <th>Related To</th>
+            <th>Cardinality</th>
+          </tr>
+          <tr *ngFor="let relationship of relationshipList;let i=index">
+            <td>
+              <input matInput [name]="relationship.relation + 'relation' + i"  [value]="modal" type="text" >
+            </td>
+            <td>
+              <mat-form-field >
+                <mat-select [name]="relationship.relatedTo + 'relatedTo' + i" [(ngModel)]="relationship.relatedTo">
+                  <mat-option *ngFor="let m of modals"  [value]="m">
+                    {{m}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+          </td>
+            <td>
+              <mat-form-field >
+                <mat-select [name]="relationship.cardinality + 'cardinality' + i" [(ngModel)]="relationship.cardinality">
+                  <mat-option *ngFor="let cardinality of CARDINALITIES"  [value]="cardinality">
+                    {{cardinality}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td><mat-icon class="delete-icon" (click)="deleteRelationship(relationship.relatedTo)" >delete</mat-icon></td>
+          </tr>
+        </table>
+        <br>
+        <button mat-raised-button (click)="addRelationship()">Add Relationship</button>
+      </div>
+
+
+
+
+
+    </mat-tab>
+    <mat-tab label="Key Constraints">
+      <div class="container">
+        <table class="table">
+          <tr class="tableRow">
+            <th>Field Name</th>
+            <th>Constraint</th>
+            <th>Parent Table</th>
+            <th>Parent Field</th>
+          </tr>
+          <tr *ngFor="let attribute of getForeignKeys();let i=index">
+            <td>
+              <input matInput [value]="attribute.name" type="text" >
+            </td>
+            <td>
+              <input matInput value="FOREIGN KEY" type="text" >
+            </td>
+            <td>
+              <mat-form-field>
+                <mat-select (selectionChange)="onModalChange($event)">
+                  <mat-option *ngFor="let reference of REFERENCES"   [value]="reference.parentTable">
+                    {{reference.parentTable}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field>
+                <mat-select>
+                  <mat-option *ngFor="let key of KEYS"   [value]="key">
+                    {{key}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+
+          </tr>
+        </table>
+        </div>
+    </mat-tab>
+  </mat-tab-group>
+  <button mat-raised-button *ngIf="CREATION == true" (click)="createTable()">Create Table</button>
+  <button mat-raised-button *ngIf="CREATION == false" (click)="createTable()">Edit Table</button>
+</mat-dialog-content>
